@@ -114,7 +114,12 @@ function VoiceAgentControls({ agentId }: { agentId: string }) {
     try {
       await startSession({
         overrides: {
-          agent: { language },
+          agent: {
+            prompt: {
+              prompt: `You are VoiceDoc, an AI triage nurse. Your job is to collect symptoms, assess the triage level (GREEN, YELLOW, RED), and summarize the interaction. You must speak and respond entirely in ${language === "ur" ? "Urdu" : "English"}.`
+            },
+            firstMessage: language === "ur" ? "ہیلو، میں وائس ڈوک ہوں۔ آج آپ کیسا محسوس کر رہے ہیں؟" : "Hello, I am VoiceDoc. How are you feeling today?"
+          },
         },
         onConnect: ({ conversationId }: { conversationId?: string } = {}) => {
           setMessages((current) => [
