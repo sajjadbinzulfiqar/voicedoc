@@ -11,6 +11,25 @@ const triageColors = {
   RED: "#ef4444",
 };
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-[#111] p-3 text-white shadow-xl">
+        {label && <p className="mb-2 font-medium text-white/70">{label}</p>}
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2">
+            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: entry.color || entry.payload.fill || entry.payload.payload?.fill }} />
+            <span className="text-sm font-medium">
+              {entry.name}: <span className="font-bold">{entry.value}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export function DashboardCharts({ metrics }: { metrics: MetricsResponse }) {
   const languageData = [
     { name: "English", value: metrics.byLanguage.en, fill: "#ff6b00" },
@@ -36,7 +55,7 @@ export function DashboardCharts({ metrics }: { metrics: MetricsResponse }) {
               <CartesianGrid stroke="rgba(255,255,255,0.08)" vertical={false} />
               <XAxis dataKey="date" stroke="rgba(255,255,255,0.45)" tickLine={false} axisLine={false} />
               <YAxis stroke="rgba(255,255,255,0.45)" tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={{ background: "#111111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, color: "#fff" }} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
               <Line type="monotone" dataKey="sessions" stroke="#ff6b00" strokeWidth={3} dot={{ r: 4, fill: "#ff6b00" }} activeDot={{ r: 7 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -51,7 +70,7 @@ export function DashboardCharts({ metrics }: { metrics: MetricsResponse }) {
         <CardContent className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Tooltip contentStyle={{ background: "#111111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, color: "#fff" }} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
               <Pie data={languageData} dataKey="value" nameKey="name" innerRadius={64} outerRadius={98} paddingAngle={4} label>
                 {languageData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
               </Pie>
@@ -68,7 +87,7 @@ export function DashboardCharts({ metrics }: { metrics: MetricsResponse }) {
         <CardContent className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Tooltip contentStyle={{ background: "#111111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, color: "#fff" }} />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
               <Pie data={triageData} dataKey="value" nameKey="name" innerRadius={52} outerRadius={98} paddingAngle={4} label>
                 {triageData.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
               </Pie>
