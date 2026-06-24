@@ -1,0 +1,13 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <circle cx="1000" cy="80" r="280" fill="#FF6B00" fill-opacity="0.22"/>
+  <circle cx="180" cy="520" r="260" fill="#22C55E" fill-opacity="0.12"/>
+  <rect x="80" y="90" width="1040" height="450" rx="44" fill="#111111" stroke="white" stroke-opacity="0.12"/>
+  <text x="140" y="230" fill="white" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="800">VoiceDoc</text>
+  <text x="140" y="315" fill="#FF6B00" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Healthcare guidance in your language, by voice</text>
+  <text x="140" y="390" fill="white" fill-opacity="0.68" font-family="Inter, Arial, sans-serif" font-size="30">ElevenLabs-powered Urdu + English health triage agent</text>
+  <g transform="translate(860 210)">
+    <rect width="140" height="140" rx="36" fill="#FF6B00"/>
+    <path d="M70 34v72M46 56v28M94 56v28M30 66v8M110 66v8" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VoiceDoc mark">
+  <rect width="160" height="160" rx="40" fill="#FF6B00"/>
+  <path d="M80 39v82" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M52 65v30M108 65v30M34 75v10M126 75v10" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M58 117h44" stroke="white" stroke-width="12" stroke-linecap="round"/>
+</svg>
