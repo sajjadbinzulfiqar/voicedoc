@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { MOCK_BASE_CONSULTATIONS } from "@/lib/constants";
 import { mockMetrics } from "@/lib/metrics";
-import { createSupabaseAdminClient, hasSupabaseEnv } from "@/lib/supabase";
+import { getDb, hasDbEnv } from "@/lib/db";
 import type { MetricsResponse } from "@/lib/types";
 
 type SessionRow = {
@@ -40,33 +40,30 @@ function buildMetrics(rows: SessionRow[]): MetricsResponse {
     byTriage,
     avgDuration: Math.round(durationTotal / Math.max(total, 1)),
     weeklyData: Array.from(weeklyMap.entries()).map(([date, sessions]) => ({ date, sessions })),
-    source: "supabase",
+    source: "database",
   };
 }
 
 export async function GET() {
-  if (!hasSupabaseEnv()) {
+  if (!hasDbEnv()) {
     return NextResponse.json(mockMetrics);
   }
 
   try {
-    const supabase = createSupabaseAdminClient();
-    const { data, error } = await supabase
-      .from("sessions")
-      .select("created_at, language, duration_seconds, triage_level")
-      .order("created_at", { ascending: false })
-      .limit(1000);
+    const sql = getDb();
+    const data = await sql`
+      SELECT created_at, language, duration_seconds, triage_level
+      FROM sessions
+      ORDER BY created_at DESC
+      LIMIT 1000
+    `;
 
-    if (error) {
-      return NextResponse.json({ ...mockMetrics, source: "mock", warning: error.message });
-    }
-
-    return NextResponse.json(buildMetrics(data ?? []));
+    return NextResponse.json(buildMetrics(data as unknown as SessionRow[]));
   } catch (error) {
     return NextResponse.json({
       ...mockMetrics,
       source: "mock",
-      warning: error instanceof Error ? error.message : "Unable to fetch Supabase metrics.",
+      warning: error instanceof Error ? error.message : "Unable to fetch database metrics.",
     });
   }
 }

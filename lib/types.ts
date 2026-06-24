@@ -23,5 +23,5 @@ export type MetricsResponse = {
   byTriage: Record<"GREEN" | "YELLOW" | "RED", number>;
   avgDuration: number;
   weeklyData: Array<{ date: string; sessions: number }>;
-  source: "mock" | "supabase";
+  source: "mock" | "database";
 };

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createSupabaseAdminClient, hasSupabaseEnv } from "@/lib/supabase";
+import { getDb, hasDbEnv } from "@/lib/db";
 import type { SessionPayload } from "@/lib/types";
 
 function isSessionPayload(value: unknown): value is SessionPayload {
@@ -33,21 +33,24 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!hasSupabaseEnv()) {
-    return NextResponse.json({ stored: false, reason: "Supabase environment variables are not configured." }, { status: 202 });
+  if (!hasDbEnv()) {
+    return NextResponse.json({ stored: false, reason: "Database environment variable is not configured." }, { status: 202 });
   }
 
-  const supabase = createSupabaseAdminClient();
-  const { error } = await supabase.from("sessions").insert({
-    language: body.language,
-    duration_seconds: Math.max(0, Math.round(body.duration_seconds)),
-    triage_level: body.triage_level,
-    symptom_summary: body.symptom_summary.slice(0, 1000),
-    agent_id: body.agent_id,
-  });
-
-  if (error) {
-    return NextResponse.json({ stored: false, error: error.message }, { status: 500 });
+  try {
+    const sql = getDb();
+    await sql`
+      INSERT INTO sessions (language, duration_seconds, triage_level, symptom_summary, agent_id)
+      VALUES (
+        ${body.language},
+        ${Math.max(0, Math.round(body.duration_seconds))},
+        ${body.triage_level},
+        ${body.symptom_summary.slice(0, 1000)},
+        ${body.agent_id}
+      )
+    `;
+  } catch (error) {
+    return NextResponse.json({ stored: false, error: error instanceof Error ? error.message : "Database error" }, { status: 500 });
   }
 
   return NextResponse.json({ stored: true });

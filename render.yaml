@@ -1,3 +1,9 @@
+databases:
+  - name: voicedoc-db
+    plan: basic_256mb
+    region: singapore
+    postgresMajorVersion: 16
+
 services:
   - type: web
     name: voicedoc
@@ -13,10 +19,8 @@ services:
         sync: false
       - key: NEXT_PUBLIC_ELEVENLABS_AGENT_ID
         sync: false
-      - key: NEXT_PUBLIC_SUPABASE_URL
-        sync: false
-      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
-        sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: voicedoc-db
+          property: connectionString
     healthCheckPath: /

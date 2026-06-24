@@ -38,7 +38,7 @@ export function DashboardClient({ initialMetrics }: DashboardClientProps) {
     <>
       <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
         <div className="max-w-3xl">
-          <Badge variant={metrics.source === "supabase" ? "green" : "muted"}>{metrics.source === "supabase" ? "Live Supabase" : "Mock + ready for Supabase"}</Badge>
+          <Badge variant={metrics.source === "database" ? "green" : "muted"}>{metrics.source === "database" ? "Live Render DB" : "Mock + ready for Render DB"}</Badge>
           <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-6xl">VoiceDoc traction dashboard</h1>
           <p className="mt-5 text-lg leading-8 text-white/65">
             Monitor consultations, language adoption, triage severity, average duration, and weekly usage for the ElevenLabs grant application.

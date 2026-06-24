@@ -28,7 +28,7 @@ export function DashboardCharts({ metrics }: { metrics: MetricsResponse }) {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle>Sessions this week</CardTitle>
-          <p className="text-sm leading-6 text-white/55">Weekly trend of VoiceDoc consultations including demo and live Supabase sessions.</p>
+          <p className="text-sm leading-6 text-white/55">Weekly trend of VoiceDoc consultations including demo and live Database sessions.</p>
         </CardHeader>
         <CardContent className="h-80">
           <ResponsiveContainer width="100%" height="100%">
